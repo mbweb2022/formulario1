@@ -191,8 +191,21 @@
     padding-top: 150PX;
     margin-top: 8px;
   }
-  
-  
+  .headerInfo{
+    height: 150px;
+    position: relative;
+  }
+  .headerInfo .headerInfoContent{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    
+  }
+  .headerInfo .headerInfoContent .headerInfoText{
+    text-align: justify;
+  }
   /* ==========================================================================
        #BACKGROUND
        ========================================================================== */
@@ -475,6 +488,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    margin-right: 10px;
   }
   
   .radio-container input {

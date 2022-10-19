@@ -27,7 +27,7 @@ const data = [
     birthday: "21/03/2022",
     email: "jeremisma2001@hotmail.com",
     phoneNumber: "0999999999",
-    gender: "M",
+    gender: "F",
   },
   {
     id: 2,
@@ -41,10 +41,20 @@ const data = [
     gender: "M",
   },
 ];
-
+const gender = [
+  {
+    key: "M",
+    value: "Male",
+  },
+  {
+    key: "F",
+    value: "Female",
+  },
+];
 class Formulario extends React.Component {
   state = {
     data: data,
+    gender: gender,
     form: {
       id: "",
       firstName: "",
@@ -58,6 +68,7 @@ class Formulario extends React.Component {
     },
     modalInsertar: false,
     modalEditar: false,
+    date: "",
   };
   handleChange = (e) => {
     this.setState({
@@ -81,6 +92,7 @@ class Formulario extends React.Component {
     this.setState({ modalInsertar: false });
   };
   mostrarModalEditar = (e) => {
+    console.log(e);
     this.setState({
       modalEditar: true,
       form: e,
@@ -115,13 +127,21 @@ class Formulario extends React.Component {
   };
 
   editar = (dato) => {
+    console.log(dato);
+
     this.setState({ modalEditar: false });
     var posicion = 0;
     var lista = this.state.data;
     lista.map((registro) => {
       if (dato.id === registro.id) {
         lista[posicion].firstName = dato.firstName;
-        lista[posicion].anime = dato.anime;
+        lista[posicion].secondName = dato.secondName;
+        lista[posicion].lastName = dato.lastName;
+        lista[posicion].secondLastName = dato.secondLastName;
+        lista[posicion].birthday = dato.birthday;
+        lista[posicion].email = dato.email;
+        lista[posicion].phoneNumber = dato.phoneNumber;
+        lista[posicion].gender = dato.gender;
       }
       posicion++;
       return lista;
@@ -147,6 +167,16 @@ class Formulario extends React.Component {
       });
       this.setState({ data: lista });
     }
+  };
+  componentDidMount = () => {
+    var date = new Date();
+    var day = date.getDay();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+    var todaysDate = day + "/" + month + "/" + year;
+    this.setState({
+      date: todaysDate,
+    });
   };
   render() {
     const { t } = this.props;
@@ -213,7 +243,18 @@ class Formulario extends React.Component {
           <Container>
             <div className="card card-4">
               <div className="card-heading"></div>
-
+              <div className="headerInfo">
+                <div className="headerInfoContent">
+                  <Alert color="info"> Hoy es {this.state.date}</Alert>
+                  <label className="headerInfoText">
+                    En esta sección podras registrar hasta tres(3) beneficiarios
+                    a tu seguro de salud médico proporcionado por MoneyBlinks.
+                    Recuerda que debes ingresar todos los datos solicitados y
+                    validar que estén correctos. El plazo del seguro dependerá
+                    de la fecha en que te registres.
+                  </label>
+                </div>
+              </div>
               <div className="card-body">
                 <h2 className="title">{t("healthInsurance")}</h2>
                 <form>
@@ -226,7 +267,11 @@ class Formulario extends React.Component {
                           type="text"
                           readOnly
                           name="identification"
-                          value={this.state.data.length + 1}
+                          value={
+                            this.state.modalEditar === true
+                              ? this.state.form.id
+                              : this.state.data.length + 1
+                          }
                         />
                       </FormGroup>
                     </div>
@@ -302,35 +347,51 @@ class Formulario extends React.Component {
                     <div className="col-2">
                       <FormGroup>
                         <label className="label">{t("gender")}</label>
-                        <div className="p-t-10">
-                          <label className="radio-container m-r-45">
-                            {t("male")}
+                        <tr>
+                          <label className="radio-container">
+                            {this.state.gender[1].value}
                             <input
                               type="radio"
-                              value={this.state.form.gender}
                               name="gender"
-                              onChange={() => {
+                              value={this.state.form.gender}
+                              checked={
+                                this.state.form.gender === "F" ? "checked" : ""
+                              }
+                              onSelect={() => {
                                 this.setState({
-                                  form: { ...this.state.form,gender: "M" },
+                                  form: {
+                                    ...this.state.form,
+                                    gender: this.state.gender[1].value,
+                                  },
                                 });
                               }}
                             />
                             <span className="checkmark"></span>
                           </label>
+                        </tr>
+                        <tr>
                           <label className="radio-container">
-                            {t("female")}
+                            {this.state.gender[0].value}
                             <input
                               type="radio"
                               name="gender"
-                              onChange={() =>
-                                this.setState({
-                                  form: { ...this.state.form, gender: "F" },
-                                })
+                              value={this.state.form.gender}
+                              checked={
+                                this.state.form.gender === "M" ? "checked" : ""
                               }
+                              onSelect={() => {
+                                console.info("M");
+                                this.setState({
+                                  form: {
+                                    ...this.state.form,
+                                    gender: this.state.gender[0].value,
+                                  },
+                                });
+                              }}
                             />
                             <span className="checkmark"></span>
                           </label>
-                        </div>
+                        </tr>
                       </FormGroup>
                     </div>
                   </div>
@@ -342,6 +403,7 @@ class Formulario extends React.Component {
                           className="form-control"
                           type="email"
                           name="email"
+                          value={this.state.form.email}
                           onChange={this.handleChange}
                         />
                       </FormGroup>
@@ -353,6 +415,7 @@ class Formulario extends React.Component {
                           className="form-control"
                           type="text"
                           name="phoneNumber"
+                          value={this.state.form.phoneNumber}
                           onChange={this.handleChange}
                         />
                       </FormGroup>
@@ -360,9 +423,21 @@ class Formulario extends React.Component {
                   </div>
 
                   <div className="p-t-15 ">
-                    <Button color="primary" onClick={() => this.insertar()}>
-                      Insertar
-                    </Button>
+                    {this.state.modalEditar === false ? (
+                      <Button color="primary" onClick={() => this.insertar()}>
+                        Insertar
+                      </Button>
+                    ) : (
+                      <Button
+                        color="primary"
+                        onClick={() => {
+                          this.editar(this.state.form);
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    )}
+
                     <Alert color="warning">
                       Revisa los que los datos estén correctos sobre tus
                       familiares registrados al seguro de vida proporcionado por
@@ -531,7 +606,9 @@ class Formulario extends React.Component {
           <ModalFooter>
             <Button
               color="primary"
-              onClick={() => this.editar(this.state.form)}
+              onClick={() => {
+                this.editar(this.state.form);
+              }}
             >
               Editar
             </Button>
