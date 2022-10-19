@@ -150,7 +150,7 @@ class Formulario extends React.Component {
     this.setState({ data: lista });
   };
 
-  useQuery = () => new URLSearchParams(useLocation().search);
+  useQuery = () => new URLSearchParams(window.location.search);
   query = this.useQuery();
   userId = this.query.get('userId')
 
