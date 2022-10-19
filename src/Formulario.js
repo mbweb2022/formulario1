@@ -150,6 +150,11 @@ class Formulario extends React.Component {
     this.setState({ data: lista });
   };
 
+  useQuery = () => new URLSearchParams(useLocation().search);
+  query = this.useQuery();
+  userId = this.query.get('userId')
+
+
   eliminar = (dato) => {
     var opcion = window.confirm(
       `¿Estás seguro de eliminar el siguiente registro?\nId: ${dato.id}\nPersonaje: ${dato.personaje}\nAnime: ${dato.anime}`
@@ -245,7 +250,7 @@ class Formulario extends React.Component {
               <div className="card-heading"></div>
               <div className="headerInfo">
                 <div className="headerInfoContent">
-                  <Alert color="info"> Hoy es {this.state.date}</Alert>
+                  <Alert color="info"> Hoy es {this.state.date}, SU USER ID ES {this.userId} </Alert>
                   <label className="headerInfoText">
                     En esta sección podras registrar hasta tres(3) beneficiarios
                     a tu seguro de salud médico proporcionado por MoneyBlinks.
