@@ -1,0 +1,17 @@
+{
+  "identification": "Cardholder's ID",
+  "firstName": "First Name",
+  "secondName": "Second Name",
+  "lastName": "Paternal Last Name",
+  "secondLastName": "Mother's Last Name",
+  "address": "Address",
+  "birthdate": "Date of birth",
+  "gender": "Gender",
+  "phoneNumber": "Phone number",
+  "city": "City",
+  "kinship": "Kinship",
+  "email": "Email",
+  "healthInsurance": "Beneficiary's Health Insurance'",
+  "male":"Male",
+  "female":"Female"
+}
