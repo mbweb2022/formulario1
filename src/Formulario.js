@@ -162,7 +162,7 @@ class Formulario extends React.Component {
   
   callInformation = async (userId, headers)=>{
     let response = await axios.post("InvokeLambdaformwebGet-2014180930.us-east-1.elb.amazonaws.com", {userId}, {headers})
-    this.setState({mbUser: response?.body?.mbUser})
+    this.setState({mbUser: response})
   }
 
 
