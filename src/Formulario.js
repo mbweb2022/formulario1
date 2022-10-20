@@ -17,6 +17,8 @@ import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
+let axios = require('../node_modules/axios')
+
 const data = [
   {
     id: 1,
@@ -69,6 +71,7 @@ class Formulario extends React.Component {
     modalInsertar: false,
     modalEditar: false,
     date: "",
+    mbUser: {},
   };
   handleChange = (e) => {
     this.setState({
@@ -150,11 +153,17 @@ class Formulario extends React.Component {
     this.setState({ data: lista });
   };
 
+  
   useQuery = () => new URLSearchParams(window.location.search);
   query = this.useQuery();
   userId = this.query.get('userId')
-
-
+  headers = {
+    "Content-Type": "application/json",
+  };
+  callInformation = async (userId)=>{
+    let response = await axios.post("InvokeLambdaformwebGet-2014180930.us-east-1.elb.amazonaws.com", {userId}, {headers})
+    this.setState({mbUser: response?.body?.mbUser})
+  }
   eliminar = (dato) => {
     var opcion = window.confirm(
       `¿Estás seguro de eliminar el siguiente registro?\nId: ${dato.id}\nPersonaje: ${dato.personaje}\nAnime: ${dato.anime}`
@@ -250,7 +259,7 @@ class Formulario extends React.Component {
               <div className="card-heading"></div>
               <div className="headerInfo">
                 <div className="headerInfoContent">
-                  <Alert color="info"> Hoy es {this.state.date}, SU USER ID ES {this.userId} </Alert>
+                  <Alert color="info"> Hoy es {this.state.date}, Se ha accedido a este formulario a nombre de: {JSON.stringify(this.state?.mbUser)} </Alert>
                   <label className="headerInfoText">
                     En esta sección podras registrar hasta tres(3) beneficiarios
                     a tu seguro de salud médico proporcionado por MoneyBlinks.
