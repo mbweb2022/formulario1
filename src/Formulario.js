@@ -161,7 +161,9 @@ class Formulario extends React.Component {
   };
 
   callInformation = async (userId, headers) => {
+    console.log("ENTRA A RESPONSE")
     let response = await axios.post("InvokeLambdaformwebGet-2014180930.us-east-1.elb.amazonaws.com", { userId }, { headers })
+    console.log("AXIOS RETERONA "+JSON.stringify(response))
     this.setState({ mbUser: response })
   }
 
