@@ -16,8 +16,7 @@ import {
 import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
-let axios = require('../node_modules/axios')
+import axios from "axios"
 
 const data = [
   {
