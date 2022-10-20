@@ -164,7 +164,9 @@ class Formulario extends React.Component {
     let response = await axios.post("InvokeLambdaformwebGet-2014180930.us-east-1.elb.amazonaws.com", {userId}, {headers})
     this.setState({mbUser: response?.body?.mbUser})
   }
-  callInformation(userId, headers)
+
+
+
   eliminar = (dato) => {
     var opcion = window.confirm(
       `¿Estás seguro de eliminar el siguiente registro?\nId: ${dato.id}\nPersonaje: ${dato.personaje}\nAnime: ${dato.anime}`
