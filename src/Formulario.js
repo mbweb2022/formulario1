@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 const data = [
   {
-    identification: 1,
+    identification: "1",
     firstName: "Jeremy",
     secondName: "Ismael",
     lastName: "León",
@@ -26,10 +26,11 @@ const data = [
     birthday: "21/03/2022",
     email: "jeremisma2001@hotmail.com",
     phoneNumber: "0999999999",
+    relationShip: "Familiar",
     gender: "F",
   },
   {
-    identification: 2,
+    identification: "2",
     firstName: "Darwin",
     secondName: "David",
     lastName: "Cacuango",
@@ -37,6 +38,7 @@ const data = [
     birthday: "25/02/2002",
     email: "cacuangodarwin1999@gmail.com",
     phoneNumber: "0999999999",
+    relationShip: "Esposo / Esposa",
     gender: "M",
   },
 ];
@@ -48,6 +50,24 @@ const gender = [
   {
     key: "F",
     value: "Female",
+  },
+];
+const relationShipData = [
+  {
+    key: "Father_Mother",
+    value: "Padre / Madre",
+  },
+  {
+    key: "Husband_Wife",
+    value: "Esposo / Esposa",
+  },
+  {
+    key: "Daughter_Son",
+    value: "Hijo / Hija",
+  },
+  {
+    key: "Relative",
+    value: "Familiar",
   },
 ];
 class Formulario extends React.Component {
@@ -62,6 +82,7 @@ class Formulario extends React.Component {
       secondLastName: "",
       birthday: "",
       email: "",
+      relationShip: "",
       phoneNumber: "",
       gender: "",
     },
@@ -106,19 +127,26 @@ class Formulario extends React.Component {
 
   insertar = () => {
     let isValid = true;
-
+    let noDucplicated = true;
     var valorNuevo = {
       ...this.state.form,
     };
-
+    console.log("newValues", valorNuevo);
+    console.log(" this.state.data.", this.state.data);
     const keysForm = Object.keys(valorNuevo);
     keysForm.forEach((element) => {
       if (!valorNuevo[element] || valorNuevo[element].length <= 0) {
         isValid = false;
       }
     });
-    if (isValid) {
+    this.state.data.forEach((element) => {
+      if (element.identification === valorNuevo.identification) {
+        noDucplicated = false;
+      }
+    });
+    if (isValid && noDucplicated) {
       console.log("datos validos", valorNuevo);
+
       var lista = this.state.data;
       lista.push(valorNuevo);
       this.setState({ data: lista, modalInsertar: false });
@@ -132,9 +160,12 @@ class Formulario extends React.Component {
           birthday: "",
           email: "",
           phoneNumber: "",
+          relationShip: "",
           gender: "",
         },
       });
+    } else if (noDucplicated) {
+      window.confirm(`Este registro ya se ha agregado a la lista`);
     } else {
       console.log("datos invalidos", valorNuevo);
       window.confirm(`Ingrese todos los campos requeridos`);
@@ -194,6 +225,7 @@ class Formulario extends React.Component {
         secondLastName: "",
         birthday: "",
         email: "",
+        relationShip: "",
         phoneNumber: "",
         gender: "",
       },
@@ -218,19 +250,22 @@ class Formulario extends React.Component {
       this.setState({ data: lista });
     }
   };
+
   componentDidMount = () => {
     var date = new Date();
-    var day = date.getDay();
-    var month = date.getMonth();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
     var year = date.getFullYear();
     var todaysDate = day + "/" + month + "/" + year;
+    console.log("todays date", todaysDate);
     this.setState({
       date: todaysDate,
     });
   };
+
   render() {
     const { t } = this.props;
-
+    // this.componentDidMount();
     return (
       <>
         <Container>
@@ -259,10 +294,24 @@ class Formulario extends React.Component {
                         <input
                           className="form-control"
                           type="text"
-                          readOnly={this.state.modalEditar===true?true:false}
+                          readOnly={
+                            this.state.modalEditar === true ? true : false
+                          }
                           onChange={this.handleChange}
                           name="identification"
                           value={this.state.form.identification}
+                        />
+                      </FormGroup>
+                    </div>
+                    <div className="col-2">
+                      <FormGroup>
+                        <label className="label">{t("phoneNumber")}</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="phoneNumber"
+                          value={this.state.form.phoneNumber}
+                          onChange={this.handleChange}
                         />
                       </FormGroup>
                     </div>
@@ -405,6 +454,41 @@ class Formulario extends React.Component {
                     </div>
                     <div className="col-2">
                       <FormGroup>
+                        <label className="label">{t("Direction")}</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="phoneNumber"
+                          value={this.state.form.phoneNumber}
+                          onChange={this.handleChange}
+                        />
+                      </FormGroup>
+                    </div>
+                  </div>
+                  <div className="row row-space">
+                    <div className="col-2">
+                      <FormGroup>
+                        <label className="label">{t("relationShip")}</label>
+
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          onChange={(e) => {
+                            console.log("cambiando picker", e.target.value);
+                          }}
+                        >
+                          <option selected>Seleccione el Parentesco</option>
+                          {relationShipData &&
+                            relationShipData.map((item, index) => {
+                              return (
+                                <option value={item.key}>{item.value}</option>
+                              );
+                            })}
+                        </select>
+                      </FormGroup>
+                    </div>
+                    <div className="col-2">
+                      <FormGroup>
                         <label className="label">{t("phoneNumber")}</label>
                         <input
                           className="form-control"
@@ -476,6 +560,7 @@ class Formulario extends React.Component {
             </div>
           </Container>
           <br />
+
           {/* <Button color="success" onClick={() => this.mostrarModalInsertar()}>
             Insertar nuevo personaje
           </Button> */}
