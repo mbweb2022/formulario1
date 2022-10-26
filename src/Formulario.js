@@ -16,10 +16,9 @@ import {
 import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
 const data = [
   {
-    id: 1,
+    identification: 1,
     firstName: "Jeremy",
     secondName: "Ismael",
     lastName: "León",
@@ -30,7 +29,7 @@ const data = [
     gender: "F",
   },
   {
-    id: 2,
+    identification: 2,
     firstName: "Darwin",
     secondName: "David",
     lastName: "Cacuango",
@@ -56,7 +55,7 @@ class Formulario extends React.Component {
     data: data,
     gender: gender,
     form: {
-      id: "",
+      identification: "",
       firstName: "",
       secondName: "",
       lastName: "",
@@ -70,14 +69,15 @@ class Formulario extends React.Component {
     modalEditar: false,
     date: "",
   };
+
   handleChange = (e) => {
+    console.log(e);
     this.setState({
       form: {
         ...this.state.form,
         [e.target.name]: e.target.value,
       },
     });
-    console.log(this.state.form);
   };
   mostrarModalInsertar = () => {
     var longitud = this.state.data.length + 1;
@@ -92,17 +92,55 @@ class Formulario extends React.Component {
     this.setState({ modalInsertar: false });
   };
   mostrarModalEditar = (e) => {
-    console.log(e);
+    console.log("dato seleccionado", e);
+    console.log("antes de seleccionar", this.state.data);
     this.setState({
       modalEditar: true,
       form: e,
     });
+    console.log("despues de seleccionar", this.state.data);
   };
   ocultarModalEditar = () => {
     this.setState({ modalEditar: false });
   };
 
   insertar = () => {
+    let isValid = true;
+
+    var valorNuevo = {
+      ...this.state.form,
+    };
+
+    const keysForm = Object.keys(valorNuevo);
+    keysForm.forEach((element) => {
+      if (!valorNuevo[element] || valorNuevo[element].length <= 0) {
+        isValid = false;
+      }
+    });
+    if (isValid) {
+      console.log("datos validos", valorNuevo);
+      var lista = this.state.data;
+      lista.push(valorNuevo);
+      this.setState({ data: lista, modalInsertar: false });
+      this.setState({
+        form: {
+          id: "",
+          firstName: "",
+          secondName: "",
+          lastName: "",
+          secondLastName: "",
+          birthday: "",
+          email: "",
+          phoneNumber: "",
+          gender: "",
+        },
+      });
+    } else {
+      console.log("datos invalidos", valorNuevo);
+      window.confirm(`Ingrese todos los campos requeridos`);
+    }
+
+    /*
     var valorNuevo = {
       ...this.state.form,
     };
@@ -123,17 +161,15 @@ class Formulario extends React.Component {
         phoneNumber: "",
         gender: "",
       },
-    });
+    });*/
   };
 
   editar = (dato) => {
-    console.log(dato);
-
     this.setState({ modalEditar: false });
     var posicion = 0;
     var lista = this.state.data;
     lista.map((registro) => {
-      if (dato.id === registro.id) {
+      if (dato.identification === registro.identification) {
         lista[posicion].firstName = dato.firstName;
         lista[posicion].secondName = dato.secondName;
         lista[posicion].lastName = dato.lastName;
@@ -148,6 +184,20 @@ class Formulario extends React.Component {
     });
 
     this.setState({ data: lista });
+    this.setState({
+      modalEditar: false,
+      form: {
+        identification: "",
+        firstName: "",
+        secondName: "",
+        lastName: "",
+        secondLastName: "",
+        birthday: "",
+        email: "",
+        phoneNumber: "",
+        gender: "",
+      },
+    });
   };
 
   eliminar = (dato) => {
@@ -184,62 +234,6 @@ class Formulario extends React.Component {
     return (
       <>
         <Container>
-          {/* <Container className="container">
-            <img
-              src="https://www.moneyblinks.com/assets/images/logo.png"
-              className="img-thumbnail"
-              alt="..."
-            />
-          </Container> */}
-          {/* <Container>
-            <div>
-              <h3>Insertar Personaje</h3>
-            </div>
-            <br />
-
-            <FormGroup>
-              <label>Id:</label>
-
-              <input
-                className="form-control"
-                readOnly
-                type="text"
-                value={this.state.data.length + 1}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <label>Personaje:</label>
-              <input
-                className="form-control"
-                name="personaje"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <label>Anime:</label>
-              <input
-                className="form-control"
-                name="anime"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <br />
-
-            <Button color="primary" onClick={() => this.insertar()}>
-              Insertar
-            </Button>
-            <Button
-              className="btn btn-danger"
-              onClick={() => this.ocultarModalInsertar()}
-            >
-              Cancelar
-            </Button>
-          </Container> */}
-
           <Container>
             <div className="card card-4">
               <div className="card-heading"></div>
@@ -265,13 +259,9 @@ class Formulario extends React.Component {
                         <input
                           className="form-control"
                           type="text"
-                          readOnly
+                          onChange={this.handleChange}
                           name="identification"
-                          value={
-                            this.state.modalEditar === true
-                              ? this.state.form.id
-                              : this.state.data.length + 1
-                          }
+                          value={this.state.form.identification}
                         />
                       </FormGroup>
                     </div>
@@ -354,14 +344,16 @@ class Formulario extends React.Component {
                               type="radio"
                               name="gender"
                               value={this.state.form.gender}
+                              id={this.state.form.gender}
                               checked={
-                                this.state.form.gender === "F" ? "checked" : ""
+                                this.state.form.gender === "F" ? true : false
                               }
-                              onSelect={() => {
+                              onClick={() => {
+                                console.log("F", this.state.gender[1].key);
                                 this.setState({
                                   form: {
                                     ...this.state.form,
-                                    gender: this.state.gender[1].value,
+                                    gender: this.state.gender[1].key,
                                   },
                                 });
                               }}
@@ -369,6 +361,7 @@ class Formulario extends React.Component {
                             <span className="checkmark"></span>
                           </label>
                         </tr>
+
                         <tr>
                           <label className="radio-container">
                             {this.state.gender[0].value}
@@ -376,15 +369,16 @@ class Formulario extends React.Component {
                               type="radio"
                               name="gender"
                               value={this.state.form.gender}
+                              id={this.state.form.gender}
                               checked={
-                                this.state.form.gender === "M" ? "checked" : ""
+                                this.state.form.gender === "M" ? true : false
                               }
-                              onSelect={() => {
-                                console.info("M");
+                              onClick={() => {
+                                console.log("M", this.state.gender[0].key);
                                 this.setState({
                                   form: {
                                     ...this.state.form,
-                                    gender: this.state.gender[0].value,
+                                    gender: this.state.gender[0].key,
                                   },
                                 });
                               }}
@@ -428,14 +422,44 @@ class Formulario extends React.Component {
                         Insertar
                       </Button>
                     ) : (
-                      <Button
-                        color="primary"
-                        onClick={() => {
-                          this.editar(this.state.form);
+                      <div
+                        style={{
+                          width: "350px",
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
                         }}
                       >
-                        Editar
-                      </Button>
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            this.editar(this.state.form);
+                          }}
+                        >
+                          Guardar
+                        </Button>
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            this.setState({
+                              modalEditar: false,
+                              form: {
+                                identification: "",
+                                firstName: "",
+                                secondName: "",
+                                lastName: "",
+                                secondLastName: "",
+                                birthday: "",
+                                email: "",
+                                phoneNumber: "",
+                                gender: "",
+                              },
+                            });
+                          }}
+                        >
+                          Cancelar
+                        </Button>
+                      </div>
                     )}
 
                     <Alert color="warning">
@@ -459,7 +483,7 @@ class Formulario extends React.Component {
           <Table>
             <thead>
               <tr>
-                <th>Id</th>
+                <th>Identification</th>
                 <th>Primer Nombre</th>
                 <th>Segundo Nombre</th>
                 <th>Primer Apellido</th>
@@ -474,7 +498,7 @@ class Formulario extends React.Component {
             <tbody>
               {this.state.data.map((elemento) => (
                 <tr>
-                  <td>{elemento.id}</td>
+                  <td>{elemento.identification}</td>
                   <td>{elemento.firstName}</td>
                   <td>{elemento.secondName}</td>
                   <td>{elemento.lastName}</td>
@@ -516,13 +540,13 @@ class Formulario extends React.Component {
 
           <ModalBody>
             <FormGroup>
-              <label>Id:</label>
+              <label>Identification:</label>
 
               <input
                 className="form-control"
-                readOnly
+                readonly
                 type="text"
-                value={this.state.data.length + 1}
+                value={this.state.data.identification}
               />
             </FormGroup>
 
@@ -570,13 +594,13 @@ class Formulario extends React.Component {
 
           <ModalBody>
             <FormGroup>
-              <label>Id:</label>
+              <label>Identification:</label>
 
               <input
                 className="form-control"
-                readOnly
+                readonly
                 type="text"
-                value={this.state.form.id}
+                value={this.state.form.identification}
               />
             </FormGroup>
 
@@ -610,7 +634,7 @@ class Formulario extends React.Component {
                 this.editar(this.state.form);
               }}
             >
-              Editar
+              Guardar
             </Button>
             <Button color="danger" onClick={() => this.ocultarModalEditar()}>
               Cancelar
