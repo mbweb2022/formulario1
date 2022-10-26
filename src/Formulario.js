@@ -259,6 +259,7 @@ class Formulario extends React.Component {
                         <input
                           className="form-control"
                           type="text"
+                          readOnly={this.state.modalEditar===true?true:false}
                           onChange={this.handleChange}
                           name="identification"
                           value={this.state.form.identification}
