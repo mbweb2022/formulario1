@@ -27,6 +27,8 @@ const data = [
     email: "jeremisma2001@hotmail.com",
     phoneNumber: "0999999999",
     relationShip: "Familiar",
+    city:"Quito",
+    direction: "La carolina",
     gender: "F",
   },
   {
@@ -39,6 +41,8 @@ const data = [
     email: "cacuangodarwin1999@gmail.com",
     phoneNumber: "0999999999",
     relationShip: "Esposo / Esposa",
+    city:"Quito",
+    direction: "La carolina",
     gender: "M",
   },
 ];
@@ -84,6 +88,8 @@ class Formulario extends React.Component {
       email: "",
       relationShip: "",
       phoneNumber: "",
+      direction: "",
+      city:"",
       gender: "",
     },
     modalInsertar: false,
@@ -227,6 +233,8 @@ class Formulario extends React.Component {
         email: "",
         relationShip: "",
         phoneNumber: "",
+        city: "",
+        direction: "",
         gender: "",
       },
     });
@@ -454,12 +462,12 @@ class Formulario extends React.Component {
                     </div>
                     <div className="col-2">
                       <FormGroup>
-                        <label className="label">{t("Direction")}</label>
+                        <label className="label">{t("direction")}</label>
                         <input
                           className="form-control"
                           type="text"
-                          name="phoneNumber"
-                          value={this.state.form.phoneNumber}
+                          name="direction"
+                          value={this.state.form.direction}
                           onChange={this.handleChange}
                         />
                       </FormGroup>
@@ -477,7 +485,7 @@ class Formulario extends React.Component {
                             console.log("cambiando picker", e.target.value);
                           }}
                         >
-                          <option selected>Seleccione el Parentesco</option>
+                          <option ></option>
                           {relationShipData &&
                             relationShipData.map((item, index) => {
                               return (
@@ -489,12 +497,12 @@ class Formulario extends React.Component {
                     </div>
                     <div className="col-2">
                       <FormGroup>
-                        <label className="label">{t("phoneNumber")}</label>
+                        <label className="label">{t("city")}</label>
                         <input
                           className="form-control"
                           type="text"
-                          name="phoneNumber"
-                          value={this.state.form.phoneNumber}
+                          name="city"
+                          value={this.state.form.city}
                           onChange={this.handleChange}
                         />
                       </FormGroup>
@@ -537,6 +545,9 @@ class Formulario extends React.Component {
                                 birthday: "",
                                 email: "",
                                 phoneNumber: "",
+                                relationShip: "",
+                                direction: "",
+                                city: "",
                                 gender: "",
                               },
                             });
@@ -575,9 +586,9 @@ class Formulario extends React.Component {
                 <th>Primer Apellido</th>
                 <th>Segundo Apellido</th>
                 <th>Fecha de nacimiento</th>
-                <th>Genero</th>
                 <th>Correo electrónico</th>
                 <th>Teléfono</th>
+                <th>Genero</th>
                 <th>Acciones</th>
               </tr>
             </thead>
