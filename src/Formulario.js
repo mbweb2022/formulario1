@@ -27,7 +27,7 @@ const data = [
     email: "jeremisma2001@hotmail.com",
     phoneNumber: "0999999999",
     relationShip: "Familiar",
-    city:"Quito",
+    city: "Quito",
     direction: "La carolina",
     gender: "F",
   },
@@ -41,7 +41,7 @@ const data = [
     email: "cacuangodarwin1999@gmail.com",
     phoneNumber: "0999999999",
     relationShip: "Esposo / Esposa",
-    city:"Quito",
+    city: "Quito",
     direction: "La carolina",
     gender: "M",
   },
@@ -89,7 +89,7 @@ class Formulario extends React.Component {
       relationShip: "",
       phoneNumber: "",
       direction: "",
-      city:"",
+      city: "",
       gender: "",
     },
     modalInsertar: false,
@@ -98,7 +98,6 @@ class Formulario extends React.Component {
   };
 
   handleChange = (e) => {
-    console.log(e);
     this.setState({
       form: {
         ...this.state.form,
@@ -108,7 +107,7 @@ class Formulario extends React.Component {
   };
   mostrarModalInsertar = () => {
     var longitud = this.state.data.length + 1;
-    console.log(longitud);
+
     if (longitud <= 3) {
       this.setState({ modalInsertar: true });
     } else {
@@ -119,13 +118,10 @@ class Formulario extends React.Component {
     this.setState({ modalInsertar: false });
   };
   mostrarModalEditar = (e) => {
-    console.log("dato seleccionado", e);
-    console.log("antes de seleccionar", this.state.data);
     this.setState({
       modalEditar: true,
       form: e,
     });
-    console.log("despues de seleccionar", this.state.data);
   };
   ocultarModalEditar = () => {
     this.setState({ modalEditar: false });
@@ -137,8 +133,7 @@ class Formulario extends React.Component {
     var valorNuevo = {
       ...this.state.form,
     };
-    console.log("newValues", valorNuevo);
-    console.log(" this.state.data.", this.state.data);
+
     const keysForm = Object.keys(valorNuevo);
     keysForm.forEach((element) => {
       if (!valorNuevo[element] || valorNuevo[element].length <= 0) {
@@ -151,8 +146,6 @@ class Formulario extends React.Component {
       }
     });
     if (isValid && noDucplicated) {
-      console.log("datos validos", valorNuevo);
-
       var lista = this.state.data;
       lista.push(valorNuevo);
       this.setState({ data: lista, modalInsertar: false });
@@ -173,7 +166,6 @@ class Formulario extends React.Component {
     } else if (noDucplicated) {
       window.confirm(`Este registro ya se ha agregado a la lista`);
     } else {
-      console.log("datos invalidos", valorNuevo);
       window.confirm(`Ingrese todos los campos requeridos`);
     }
 
@@ -202,9 +194,26 @@ class Formulario extends React.Component {
   };
 
   editar = (dato) => {
+    let isValid = true;
+    const keysForm = Object.keys(dato);
+    keysForm.forEach((element) => {
+      if (!dato[element] || dato[element].length <= 0) {
+        isValid = false;
+      }
+    });
+    if(!isValid){
+      window.confirm(`Ingrese todos los campos requeridos`);
+      return;
+    }
+
     this.setState({ modalEditar: false });
     var posicion = 0;
     var lista = this.state.data;
+  
+
+   
+  
+
     lista.map((registro) => {
       if (dato.identification === registro.identification) {
         lista[posicion].firstName = dato.firstName;
@@ -214,6 +223,9 @@ class Formulario extends React.Component {
         lista[posicion].birthday = dato.birthday;
         lista[posicion].email = dato.email;
         lista[posicion].phoneNumber = dato.phoneNumber;
+        lista[posicion].relationShip = dato.relationShip;
+        lista[posicion].city = dato.city;
+        lista[posicion].direction = dato.direction;
         lista[posicion].gender = dato.gender;
       }
       posicion++;
@@ -247,7 +259,7 @@ class Formulario extends React.Component {
     if (opcion) {
       var contador = 0;
       var lista = this.state.data;
-      console.log(lista);
+
       lista.map((registro) => {
         if (registro.id === dato.id) {
           lista.splice(contador, 1);
@@ -265,7 +277,7 @@ class Formulario extends React.Component {
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
     var todaysDate = day + "/" + month + "/" + year;
-    console.log("todays date", todaysDate);
+
     this.setState({
       date: todaysDate,
     });
@@ -407,7 +419,6 @@ class Formulario extends React.Component {
                                 this.state.form.gender === "F" ? true : false
                               }
                               onClick={() => {
-                                console.log("F", this.state.gender[1].key);
                                 this.setState({
                                   form: {
                                     ...this.state.form,
@@ -432,7 +443,6 @@ class Formulario extends React.Component {
                                 this.state.form.gender === "M" ? true : false
                               }
                               onClick={() => {
-                                console.log("M", this.state.gender[0].key);
                                 this.setState({
                                   form: {
                                     ...this.state.form,
@@ -477,15 +487,33 @@ class Formulario extends React.Component {
                     <div className="col-2">
                       <FormGroup>
                         <label className="label">{t("relationShip")}</label>
-
+                        
                         <select
                           class="form-select"
                           aria-label="Default select example"
                           onChange={(e) => {
-                            console.log("cambiando picker", e.target.value);
+                           
+                            const item=relationShipData.filter(item => item.key== e.target.value);
+                            if(item.length>0){
+                              this.setState({
+                                form: {
+                                  ...this.state.form,
+                                  ["relationShip"]: item[0].value,
+                                },
+                              });
+                            }
+                            //this.handleChange(e);
+                          
+                        
                           }}
                         >
-                          <option ></option>
+                          {this.state.modalEditar === false && (
+                            <option selected>Selecciona el Parentesco</option>
+                          )}
+                   
+                          {this.state.modalEditar === true && (
+                            <option selected>{this.state.form.relationShip}</option>
+                          )}
                           {relationShipData &&
                             relationShipData.map((item, index) => {
                               return (
