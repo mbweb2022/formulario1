@@ -617,6 +617,9 @@ class Formulario extends React.Component {
                 <th>Correo electrónico</th>
                 <th>Teléfono</th>
                 <th>Genero</th>
+                <th>Relationship</th>
+                <th>Direction</th>
+                <th>City</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -632,6 +635,10 @@ class Formulario extends React.Component {
                   <td>{elemento.email}</td>
                   <td>{elemento.phoneNumber}</td>
                   <td>{elemento.gender}</td>
+                  <td>{elemento.relationShip}</td>
+                  <td>{elemento.direction}</td>
+                  <td>{elemento.city}</td>
+
                   <td>
                     <Button
                       color="primary"
