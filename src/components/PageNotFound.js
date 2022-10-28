@@ -6,13 +6,7 @@ import "./style.css";
 const PageNotFound = () => {
   useEffect(() => {
     gsap.set("svg", { visibility: "visible" });
-    //const svgf=document.querySelector(".headStripe");
-    const text404 = document.querySelector(".text404");
 
-    /*gsap.from(text404, {
-      opacity: 0.5,
-      duration: 1,
-    });*/
     gsap.to(document.querySelector(".headStripe"), {
       y: 0.5,
       rotation: 1,
@@ -21,7 +15,7 @@ const PageNotFound = () => {
       ease: "sine.inOut",
       duration: 1,
     });
-    
+
     gsap.to(document.querySelector(".spaceman"), {
       y: 0.5,
       rotation: 1,
@@ -30,23 +24,23 @@ const PageNotFound = () => {
       ease: "sine.inOut",
       duration: 1,
     });
-    
-    gsap.to( document.querySelector(".craterSmall") , {
+
+    gsap.to(document.querySelector(".craterSmall"), {
       x: -3,
       yoyo: true,
       repeat: -1,
       duration: 1,
       ease: "sine.inOut",
     });
-    
-    gsap.to( document.querySelector(".craterBig"), {
+
+    gsap.to(document.querySelector(".craterBig"), {
       x: 3,
       yoyo: true,
       repeat: -1,
       duration: 1,
       ease: "sine.inOut",
     });
-    
+
     gsap.to(document.querySelector(".planet"), {
       rotation: -2,
       yoyo: true,
@@ -55,15 +49,7 @@ const PageNotFound = () => {
       ease: "sine.inOut",
       transformOrigin: "50% 50%",
     });
-    
-  /*  gsap.to(document.querySelectorAll("g"), {
-      rotation: "random(-30,30)",
-      transformOrigin: "50% 50%",
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-*/
+
     gsap.to(document.querySelector(".starsBig"), {
       rotation: "random(-3,3)",
       transformOrigin: "100% 0%",
@@ -71,15 +57,7 @@ const PageNotFound = () => {
       repeat: -1,
       ease: "sine.inOut",
     });
-  
-    
- /*  gsap.fromTo(
-      document.querySelectorAll("g"),
-      { scale: 0, transformOrigin: "50% 50%" },
-      { scale: 1, transformOrigin: "50% 50%", yoyo: true, repeat: -1, stagger: 0.1 }
-    );*/
 
-    
     gsap.to(document.querySelector(".circlesSmall"), {
       y: -4,
       yoyo: true,
@@ -87,14 +65,7 @@ const PageNotFound = () => {
       ease: "sine.inOut",
       repeat: -1,
     });
-   /* gsap.to(document.querySelectorAll("cicle"), {
-      y: -4,
-      yoyo: true,
-      duration: 1,
-      ease: "sine.inOut",
-      repeat: -1,
-    });*/
-    
+
     gsap.to(document.querySelector(".circlesBig"), {
       y: -2,
       yoyo: true,
@@ -102,15 +73,6 @@ const PageNotFound = () => {
       ease: "sine.inOut",
       repeat: -1,
     });
-    /*gsap.to(document.querySelectorAll(".cicle"), {
-      y: -2,
-      yoyo: true,
-      duration: 1,
-      ease: "sine.inOut",
-      repeat: -1,
-    });*/
-    
-
   }, []);
   return (
     <>
@@ -802,7 +764,6 @@ const PageNotFound = () => {
 				c-3.101-3.684-4.177-8.66-2.93-13.311l7.453-27.798c0.756-2.82,3.181-4.868,6.088-5.13c6.755-0.61,20.546-0.608,41.785,5.087
 				s33.181,12.591,38.725,16.498c2.387,1.682,3.461,4.668,2.705,7.488L380.857,346.164z"
                       />
-                   
                     </g>
                   </g>
                 </g>
@@ -816,7 +777,6 @@ const PageNotFound = () => {
                 a mystery. But you can click the button below to go back to the
                 homepage.
               </p>
-             
             </div>
           </div>
         </div>

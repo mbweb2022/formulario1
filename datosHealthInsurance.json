@@ -1,0 +1,57 @@
+{
+    "data": {
+        "insured": {
+            "identification": ""
+        },
+        "beneficiaries": [
+            {
+                "firstName": "",
+                "secondName": "",
+                "lastName": "",
+                "secondLastName": "",
+                "identification": "",
+                "passport": "null",
+                "nationality": "",
+                "email": "",
+                "birthDate": "",
+                "code": "",
+                "codeDate": "",
+                "address": "",
+                "gender": "",
+                "city": ""
+            },
+            {
+                "firstName": "",
+                "secondName": "",
+                "lastName": "",
+                "secondLastName": "",
+                "identification": "",
+                "passport": "null",
+                "nationality": "",
+                "email": "",
+                "birthDate": "",
+                "code": "",
+                "codeDate": "",
+                "address": "",
+                "gender": "",
+                "city": ""
+            },
+            {
+                "firstName": "",
+                "secondName": "",
+                "lastName": "",
+                "secondLastName": "",
+                "identification": "",
+                "passport": "null",
+                "nationality": "",
+                "email": "",
+                "birthDate": "",
+                "code": "",
+                "codeDate": "",
+                "address": "",
+                "gender": "",
+                "city": ""
+            }
+        ]
+    }
+}

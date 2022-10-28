@@ -1,0 +1,30 @@
+{
+    "data": {
+        "insured": {
+            "firstName": "",
+            "secondName": "",
+            "lastName": "",
+            "secondLastName": "",
+            "identification": "",
+            "passport": "null",
+            "nationality": "",
+            "email": "",
+            "birthDate": "",
+            "code": "",
+            "codeDate": ""
+        },
+        "beneficiary": {
+            "firstName": "",
+            "secondName": "",
+            "lastName": "",
+            "secondLastName": "",
+            "identification": "",
+            "passport": "null",
+            "nationality": "",
+            "kinship": "",
+            "birthDate": "",
+            "code": "",
+            "codeDate": ""
+        }
+    }
+}

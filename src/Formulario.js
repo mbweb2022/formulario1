@@ -1,6 +1,5 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Image from "react-bootstrap/Image";
 import "./Formulario.css";
 import {
   Table,
@@ -168,29 +167,6 @@ class Formulario extends React.Component {
     } else {
       window.confirm(`Ingrese todos los campos requeridos`);
     }
-
-    /*
-    var valorNuevo = {
-      ...this.state.form,
-    };
-
-    valorNuevo.id = this.state.data.length + 1;
-    var lista = this.state.data;
-    lista.push(valorNuevo);
-    this.setState({ data: lista, modalInsertar: false });
-    this.setState({
-      form: {
-        id: "",
-        firstName: "",
-        secondName: "",
-        lastName: "",
-        secondLastName: "",
-        birthday: "",
-        email: "",
-        phoneNumber: "",
-        gender: "",
-      },
-    });*/
   };
 
   editar = (dato) => {
@@ -201,7 +177,7 @@ class Formulario extends React.Component {
         isValid = false;
       }
     });
-    if(!isValid){
+    if (!isValid) {
       window.confirm(`Ingrese todos los campos requeridos`);
       return;
     }
@@ -209,10 +185,6 @@ class Formulario extends React.Component {
     this.setState({ modalEditar: false });
     var posicion = 0;
     var lista = this.state.data;
-  
-
-   
-  
 
     lista.map((registro) => {
       if (dato.identification === registro.identification) {
@@ -285,7 +257,6 @@ class Formulario extends React.Component {
 
   render() {
     const { t } = this.props;
-    // this.componentDidMount();
     return (
       <>
         <Container>
@@ -487,32 +458,32 @@ class Formulario extends React.Component {
                     <div className="col-2">
                       <FormGroup>
                         <label className="label">{t("relationShip")}</label>
-                        
+
                         <select
                           class="form-select"
                           aria-label="Default select example"
                           onChange={(e) => {
-                           
-                            const item=relationShipData.filter(item => item.key== e.target.value);
-                            if(item.length>0){
+                            const item = relationShipData.filter(
+                              (item) => item.key === e.target.value
+                            );
+                            if (item.length > 0) {
                               this.setState({
                                 form: {
                                   ...this.state.form,
-                                  ["relationShip"]: item[0].value,
+                                  relationShip: item[0].value,
                                 },
                               });
                             }
-                            //this.handleChange(e);
-                          
-                        
                           }}
                         >
                           {this.state.modalEditar === false && (
                             <option selected>Selecciona el Parentesco</option>
                           )}
-                   
+
                           {this.state.modalEditar === true && (
-                            <option selected>{this.state.form.relationShip}</option>
+                            <option selected>
+                              {this.state.form.relationShip}
+                            </option>
                           )}
                           {relationShipData &&
                             relationShipData.map((item, index) => {
@@ -539,9 +510,12 @@ class Formulario extends React.Component {
 
                   <div className="p-t-15 ">
                     {this.state.modalEditar === false ? (
-                      <Button color="primary" onClick={() => this.insertar()}>
+                      <button
+                        class="button button2"
+                        onClick={() => this.insertar()}
+                      >
                         Insertar
-                      </Button>
+                      </button>
                     ) : (
                       <div
                         style={{
@@ -551,16 +525,16 @@ class Formulario extends React.Component {
                           justifyContent: "space-between",
                         }}
                       >
-                        <Button
-                          color="primary"
+                        <button
+                          class="button button1"
                           onClick={() => {
                             this.editar(this.state.form);
                           }}
                         >
                           Guardar
-                        </Button>
-                        <Button
-                          color="primary"
+                        </button>
+                        <button
+                          class="button button3"
                           onClick={() => {
                             this.setState({
                               modalEditar: false,
@@ -582,7 +556,7 @@ class Formulario extends React.Component {
                           }}
                         >
                           Cancelar
-                        </Button>
+                        </button>
                       </div>
                     )}
 
@@ -592,7 +566,9 @@ class Formulario extends React.Component {
                       MoneyBlinks, una vez que comprobaste que los datos están
                       correctos dale a "Registrar beneficiarios".
                     </Alert>
-                    <Button color="success">Registrar beneficiarios</Button>
+                    <button class="button button1">
+                      Registrar beneficiarios
+                    </button>
                   </div>
                 </form>
               </div>
@@ -640,19 +616,19 @@ class Formulario extends React.Component {
                   <td>{elemento.city}</td>
 
                   <td>
-                    <Button
-                      color="primary"
+                    <button
+                      class="button button2"
                       onClick={() => this.mostrarModalEditar(elemento)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
-                    </Button>
+                    </button>
                     {"  "}
-                    <Button
-                      color="danger"
+                    <button
+                      class="button button3"
                       onClick={() => this.eliminar(elemento)}
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -704,9 +680,9 @@ class Formulario extends React.Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button color="primary" onClick={() => this.insertar()}>
+            <button class="button button2" onClick={() => this.insertar()}>
               Insertar
-            </Button>
+            </button>
             <Button
               className="btn btn-danger"
               onClick={() => this.ocultarModalInsertar()}
@@ -779,4 +755,3 @@ class Formulario extends React.Component {
 }
 
 export default withTranslation()(Formulario);
-//export default Formulario;
