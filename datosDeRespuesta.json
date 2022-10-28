@@ -1,0 +1,35 @@
+{
+    "data": {
+        "mbUsers": {
+            "birthDate": {
+                "S": "2004-07-11T05:00:00.000Z"
+            },
+            "email": {
+                "S": "Arevalobernaljuan@gmail.com"
+            },
+            "country": {
+                "S": "USA"
+            },
+            "id": {
+                "S": "2ec520d9-7440-4761-bec0-f65946476add"
+            },
+            "identificationNumber": {
+                "S": "0850099292"
+            },
+            "phoneNumber": {
+                "S": "+593969981268"
+            },
+            "identificationType": {
+                "S": "C"
+            },
+            "fullName": {
+                "S": "Juan Arévalo "
+            }
+        },
+        "code": {
+            "id": {
+                "S": "ASDAS"
+            }
+        }
+    }
+}
