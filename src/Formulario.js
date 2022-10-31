@@ -229,14 +229,14 @@ class Formulario extends React.Component {
   userId = this.query.get("mbt");
   headers = {
     "Content-Type": "application/json",
-    mbt:"",
-    type:"medical"
-    
+    "Access-Control-Allow-Origin": "*",
+    mbt: "",
+    type: "medical",
   };
   callInformation = async (mbt, headers) => {
-    headers.mbt=mbt;
-    console.log("ENTRA A RESPONSE con mbt",mbt);
-    console.log("ENTRA A RESPONSE con headers",headers);
+     headers.mbt = mbt;
+    console.log("ENTRA A RESPONSE con mbt", mbt);
+    console.log("ENTRA A RESPONSE con headers", headers);
     let response = await axios.get(
       "https://rjhi2d01ca.execute-api.us-east-1.amazonaws.com/production",
       
@@ -244,6 +244,21 @@ class Formulario extends React.Component {
     );
     console.log("AXIOS RETERONA del get" + JSON.stringify(response));
     this.setState({ mbUser: response });
+
+    /*const response = await fetch(
+      "https://rjhi2d01ca.execute-api.us-east-1.amazonaws.com/production",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          mbt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyYzk3NzhiZC00ZTEzLTRhNjYtYmFlYy00MzRlMTRmYTFkZjYiLCJjb2RlSUQiOiJkZGQwOTBiMC01YjY0LTRjMGUtYjViNi0zZWVhOWZhNTQ4MDMiLCJpYXQiOjE2NjcyMzIzMzAsImV4cCI6MTY2NzQ5MTUzMH0.qnl2Z6h3_GzIFHJa6j4-CcJrkUQI5HV4d4Dzdp8KJ8Q",
+          type: "medical",
+        },
+      }
+    );
+    //const responseJson = await response.json();
+    console.log("response status", response.status);*/
   };
 
   eliminar = (dato) => {
