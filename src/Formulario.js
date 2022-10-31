@@ -167,7 +167,7 @@ class Formulario extends React.Component {
       });
     } else if (!noDucplicated) {
       window.confirm(`Este registro ya se ha agregado a la lista`);
-    } 
+    }
   };
 
   editar = (dato) => {
@@ -226,18 +226,23 @@ class Formulario extends React.Component {
   };
   useQuery = () => new URLSearchParams(window.location.search);
   query = this.useQuery();
-  userId = this.query.get("userId");
+  userId = this.query.get("mbt");
   headers = {
     "Content-Type": "application/json",
+    mbt:"",
+    type:"medical"
+    
   };
-  callInformation = async (userId, headers) => {
-    console.log("ENTRA A RESPONSE");
-    let response = await axios.post(
-      "InvokeLambdaformwebGet-2014180930.us-east-1.elb.amazonaws.com",
-      { userId },
-      { headers }
+  callInformation = async (mbt, headers) => {
+    headers.mbt=mbt;
+    console.log("ENTRA A RESPONSE con mbt",mbt);
+    console.log("ENTRA A RESPONSE con headers",headers);
+    let response = await axios.get(
+      "https://rjhi2d01ca.execute-api.us-east-1.amazonaws.com/production",
+      
+      { headers: headers }
     );
-    console.log("AXIOS RETERONA " + JSON.stringify(response));
+    console.log("AXIOS RETERONA del get" + JSON.stringify(response));
     this.setState({ mbUser: response });
   };
 
@@ -500,7 +505,9 @@ class Formulario extends React.Component {
                           }}
                         >
                           {this.state.modalEditar === false && (
-                            <option value="" selected>Selecciona el Parentesco</option>
+                            <option value="" selected>
+                              Selecciona el Parentesco
+                            </option>
                           )}
 
                           {this.state.modalEditar === true && (
