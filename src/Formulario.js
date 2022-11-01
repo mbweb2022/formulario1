@@ -12,8 +12,10 @@ import {
   ModalFooter,
   Alert,
 } from "reactstrap";
-import { withTranslation } from "react-i18next";
+import { useTranslation, withTranslation } from "react-i18next";
 import axios from "axios";
+import { get } from "./services/RestExecutor";
+import i18next from "i18next";
 
 const data = [
   {
@@ -77,6 +79,8 @@ class Formulario extends React.Component {
   state = {
     data: data,
     gender: gender,
+    tr: () => {},
+    isActivePolice: false,
     form: {
       identification: "",
       firstName: "",
@@ -227,38 +231,10 @@ class Formulario extends React.Component {
   useQuery = () => new URLSearchParams(window.location.search);
   query = this.useQuery();
   userId = this.query.get("mbt");
-  headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    mbt: "",
-    type: "medical",
-  };
-  callInformation = async (mbt, headers) => {
-     headers.mbt = mbt;
-    console.log("ENTRA A RESPONSE con mbt", mbt);
-    console.log("ENTRA A RESPONSE con headers", headers);
-    let response = await axios.get(
-      "https://rjhi2d01ca.execute-api.us-east-1.amazonaws.com/production",
-      
-      { headers: headers }
-    );
-    console.log("AXIOS RETERONA del get" + JSON.stringify(response));
-    this.setState({ mbUser: response });
 
-    /*const response = await fetch(
-      "https://rjhi2d01ca.execute-api.us-east-1.amazonaws.com/production",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          mbt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyYzk3NzhiZC00ZTEzLTRhNjYtYmFlYy00MzRlMTRmYTFkZjYiLCJjb2RlSUQiOiJkZGQwOTBiMC01YjY0LTRjMGUtYjViNi0zZWVhOWZhNTQ4MDMiLCJpYXQiOjE2NjcyMzIzMzAsImV4cCI6MTY2NzQ5MTUzMH0.qnl2Z6h3_GzIFHJa6j4-CcJrkUQI5HV4d4Dzdp8KJ8Q",
-          type: "medical",
-        },
-      }
-    );
-    //const responseJson = await response.json();
-    console.log("response status", response.status);*/
+  callInformation = async (mbt) => {
+    console.log("ENTRA A RESPONSE con mbt", mbt);
+    await get(this.userId, this.setState, this.setState);
   };
 
   eliminar = (dato) => {
@@ -291,394 +267,395 @@ class Formulario extends React.Component {
       date: todaysDate,
       todaysDate: hoy,
     });
+    this.callInformation(this.userId);
   };
+
   render() {
     const { t } = this.props;
-    this.callInformation(this.userId, this.headers);
 
     return (
       <>
-        <Container>
+        {!this.isActivePolice ? (
           <Container>
-            <div className="card card-4">
-              <div className="card-heading"></div>
-              <div className="headerInfo">
-                <div className="headerInfoContent">
-                  <Alert color="info"> Hoy es {this.state.date}</Alert>
-                  <label className="headerInfoText">
-                    En esta sección podras registrar hasta tres(3) beneficiarios
-                    a tu seguro de salud médico proporcionado por MoneyBlinks.
-                    Recuerda que debes ingresar todos los datos solicitados y
-                    validar que estén correctos. El plazo del seguro dependerá
-                    de la fecha en que te registres.
-                  </label>
+            <Container>
+              <div className="card card-4">
+                <div className="card-heading"></div>
+                <div className="headerInfo">
+                  <div className="headerInfoContent">
+                    <Alert color="info"> Hoy es {this.state.date}</Alert>
+                    <label className="headerInfoText">{t("info")}</label>
+                  </div>
                 </div>
-              </div>
-              <div className="card-body">
-                <h2 className="title">{t("healthInsurance")}</h2>
-                <form>
-                  <div className="row row-space">
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("identification")}</label>
-                        <input
-                          pattern="[0-9]{10}"
-                          className="form-control"
-                          type="text"
-                          readOnly={
-                            this.state.modalEditar === true ? true : false
-                          }
-                          required
-                          maxLength={10}
-                          name="identification"
-                          onChange={this.handleChange}
-                          value={this.state.form.identification}
-                        />
-                      </FormGroup>
+                <div className="card-body">
+                  <h2 className="title">{t("healthInsurance")}</h2>
+                  <form>
+                    <div className="row row-space">
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("identification")}</label>
+                          <input
+                            pattern="[0-9]{10}"
+                            className="form-control"
+                            type="text"
+                            readOnly={
+                              this.state.modalEditar === true ? true : false
+                            }
+                            required
+                            maxLength={10}
+                            name="identification"
+                            onChange={this.handleChange}
+                            value={this.state.form.identification}
+                          />
+                        </FormGroup>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row row-space">
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("firstName")}</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="firstName"
-                          required
-                          value={this.state.form.firstName}
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
-                    </div>
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("secondName")}</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          required
-                          value={this.state.form.secondName}
-                          name="secondName"
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
-                    </div>
-                  </div>
-                  <div className="row row-space">
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("lastName")}</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          required
-                          value={this.state.form.lastName}
-                          name="lastName"
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
-                    </div>
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("secondLastName")}</label>
-                        <input
-                          className="form-control"
-                          required
-                          value={this.state.form.secondLastName}
-                          type="text"
-                          name="secondLastName"
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
-                    </div>
-                  </div>
-                  <div className="row row-space">
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("birthdate")}</label>
-                        <div className="input-group-icon">
+                    <div className="row row-space">
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("firstName")}</label>
                           <input
                             className="form-control"
-                            value={this.state.form.birthday}
-                            type="date"
+                            type="text"
+                            name="firstName"
                             required
-                            name="birthday"
-                            min="1920-01-01"
-                            max={this.state.todaysDate}
+                            value={this.state.form.firstName}
                             onChange={this.handleChange}
                           />
-                          <i className="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                        </div>
-                      </FormGroup>
+                        </FormGroup>
+                      </div>
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("secondName")}</label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            required
+                            value={this.state.form.secondName}
+                            name="secondName"
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </div>
                     </div>
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("gender")}</label>
-                        <tr>
-                          <label className="radio-container">
-                            {this.state.gender[1].value}
+                    <div className="row row-space">
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("lastName")}</label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            required
+                            value={this.state.form.lastName}
+                            name="lastName"
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </div>
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("secondLastName")}</label>
+                          <input
+                            className="form-control"
+                            required
+                            value={this.state.form.secondLastName}
+                            type="text"
+                            name="secondLastName"
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                    <div className="row row-space">
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("birthdate")}</label>
+                          <div className="input-group-icon">
                             <input
-                              type="radio"
-                              name="gender"
+                              className="form-control"
+                              value={this.state.form.birthday}
+                              type="date"
                               required
-                              value={this.state.form.gender}
-                              id={this.state.form.gender}
-                              checked={
-                                this.state.form.gender === "F" ? true : false
-                              }
-                              onClick={() => {
-                                this.setState({
-                                  form: {
-                                    ...this.state.form,
-                                    gender: this.state.gender[1].key,
-                                  },
-                                });
-                              }}
+                              name="birthday"
+                              min="1920-01-01"
+                              max={this.state.todaysDate}
+                              onChange={this.handleChange}
                             />
-                            <span className="checkmark"></span>
-                          </label>
-                        </tr>
-                        <tr>
-                          <label className="radio-container">
-                            {this.state.gender[0].value}
-                            <input
-                              type="radio"
-                              name="gender"
-                              required
-                              value={this.state.form.gender}
-                              id={this.state.form.gender}
-                              checked={
-                                this.state.form.gender === "M" ? true : false
-                              }
-                              onClick={() => {
-                                console.info("M");
-                                this.setState({
-                                  form: {
-                                    ...this.state.form,
-                                    gender: this.state.gender[0].key,
-                                  },
-                                });
-                              }}
-                            />
-                            <span className="checkmark"></span>
-                          </label>
-                        </tr>
-                      </FormGroup>
+                            <i className="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                          </div>
+                        </FormGroup>
+                      </div>
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("gender")}</label>
+                          <tr>
+                            <label className="radio-container">
+                              {this.state.gender[1].value}
+                              <input
+                                type="radio"
+                                name="gender"
+                                required
+                                value={this.state.form.gender}
+                                id={this.state.form.gender}
+                                checked={
+                                  this.state.form.gender === "F" ? true : false
+                                }
+                                onClick={() => {
+                                  this.setState({
+                                    form: {
+                                      ...this.state.form,
+                                      gender: this.state.gender[1].key,
+                                    },
+                                  });
+                                }}
+                              />
+                              <span className="checkmark"></span>
+                            </label>
+                          </tr>
+                          <tr>
+                            <label className="radio-container">
+                              {this.state.gender[0].value}
+                              <input
+                                type="radio"
+                                name="gender"
+                                required
+                                value={this.state.form.gender}
+                                id={this.state.form.gender}
+                                checked={
+                                  this.state.form.gender === "M" ? true : false
+                                }
+                                onClick={() => {
+                                  console.info("M");
+                                  this.setState({
+                                    form: {
+                                      ...this.state.form,
+                                      gender: this.state.gender[0].key,
+                                    },
+                                  });
+                                }}
+                              />
+                              <span className="checkmark"></span>
+                            </label>
+                          </tr>
+                        </FormGroup>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row row-space">
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("email")}</label>
-                        <input
-                          className="form-control"
-                          type="email"
-                          required
-                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                          name="email"
-                          value={this.state.form.email}
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
+                    <div className="row row-space">
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("email")}</label>
+                          <input
+                            className="form-control"
+                            type="email"
+                            required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                            name="email"
+                            value={this.state.form.email}
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </div>
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("direction")}</label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="direction"
+                            required
+                            value={this.state.form.direction}
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </div>
                     </div>
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("direction")}</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="direction"
-                          required
-                          value={this.state.form.direction}
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
-                    </div>
-                  </div>
-                  <div className="row row-space">
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("relationShip")}</label>
+                    <div className="row row-space">
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("relationShip")}</label>
 
-                        <select
-                          class="form-select"
-                          required
-                          aria-label="Default select example"
-                          onChange={(e) => {
-                            const item = relationShipData.filter(
-                              (item) => item.key === e.target.value
-                            );
-                            if (item.length > 0) {
+                          <select
+                            class="form-select"
+                            required
+                            aria-label="Default select example"
+                            onChange={(e) => {
+                              const item = relationShipData.filter(
+                                (item) => item.key === e.target.value
+                              );
+                              if (item.length > 0) {
+                                this.setState({
+                                  form: {
+                                    ...this.state.form,
+                                    relationShip: item[0].value,
+                                  },
+                                });
+                              }
+                            }}
+                          >
+                            {this.state.modalEditar === false && (
+                              <option value="" selected>
+                                Selecciona el Parentesco
+                              </option>
+                            )}
+
+                            {this.state.modalEditar === true && (
+                              <option selected>
+                                {this.state.form.relationShip}
+                              </option>
+                            )}
+                            {relationShipData &&
+                              relationShipData.map((item, index) => {
+                                return (
+                                  <option value={item.key}>{item.value}</option>
+                                );
+                              })}
+                          </select>
+                        </FormGroup>
+                      </div>{" "}
+                      <div className="col-2">
+                        <FormGroup>
+                          <label className="label">{t("city")}</label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            required
+                            name="city"
+                            value={this.state.form.city}
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                    <div className="p-t-15 ">
+                      {this.state.modalEditar === false ? (
+                        <button
+                          class="button button2"
+                          onClick={() => this.insertar()}
+                        >
+                          Insertar
+                        </button>
+                      ) : (
+                        <div
+                          style={{
+                            width: "350px",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <button
+                            class="button button1"
+                            onClick={() => {
+                              this.editar(this.state.form);
+                            }}
+                          >
+                            Guardar
+                          </button>
+                          <button
+                            class="button button3"
+                            onClick={() => {
                               this.setState({
+                                modalEditar: false,
                                 form: {
-                                  ...this.state.form,
-                                  relationShip: item[0].value,
+                                  identification: "",
+                                  firstName: "",
+                                  secondName: "",
+                                  lastName: "",
+                                  secondLastName: "",
+                                  birthday: "",
+                                  email: "",
+                                  phoneNumber: "",
+                                  relationShip: "",
+                                  direction: "",
+                                  city: "",
+                                  gender: "",
                                 },
                               });
-                            }
-                          }}
-                        >
-                          {this.state.modalEditar === false && (
-                            <option value="" selected>
-                              Selecciona el Parentesco
-                            </option>
-                          )}
-
-                          {this.state.modalEditar === true && (
-                            <option selected>
-                              {this.state.form.relationShip}
-                            </option>
-                          )}
-                          {relationShipData &&
-                            relationShipData.map((item, index) => {
-                              return (
-                                <option value={item.key}>{item.value}</option>
-                              );
-                            })}
-                        </select>
-                      </FormGroup>
-                    </div>{" "}
-                    <div className="col-2">
-                      <FormGroup>
-                        <label className="label">{t("city")}</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          required
-                          name="city"
-                          value={this.state.form.city}
-                          onChange={this.handleChange}
-                        />
-                      </FormGroup>
-                    </div>
-                  </div>
-                  <div className="p-t-15 ">
-                    {this.state.modalEditar === false ? (
-                      <button
-                        class="button button2"
-                        onClick={() => this.insertar()}
-                      >
-                        Insertar
+                            }}
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      )}
+                      <Alert color="warning">
+                        Revisa los que los datos estén correctos sobre tus
+                        familiares registrados al seguro de vida proporcionado
+                        por MoneyBlinks, una vez que comprobaste que los datos
+                        están correctos dale a "Registrar beneficiarios".
+                      </Alert>
+                      <button class="button button1">
+                        Registrar beneficiarios
                       </button>
-                    ) : (
-                      <div
-                        style={{
-                          width: "350px",
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <button
-                          class="button button1"
-                          onClick={() => {
-                            this.editar(this.state.form);
-                          }}
-                        >
-                          Guardar
-                        </button>
-                        <button
-                          class="button button3"
-                          onClick={() => {
-                            this.setState({
-                              modalEditar: false,
-                              form: {
-                                identification: "",
-                                firstName: "",
-                                secondName: "",
-                                lastName: "",
-                                secondLastName: "",
-                                birthday: "",
-                                email: "",
-                                phoneNumber: "",
-                                relationShip: "",
-                                direction: "",
-                                city: "",
-                                gender: "",
-                              },
-                            });
-                          }}
-                        >
-                          Cancelar
-                        </button>
-                      </div>
-                    )}
-                    <Alert color="warning">
-                      Revisa los que los datos estén correctos sobre tus
-                      familiares registrados al seguro de vida proporcionado por
-                      MoneyBlinks, una vez que comprobaste que los datos están
-                      correctos dale a "Registrar beneficiarios".
-                    </Alert>
-                    <button class="button button1">
-                      Registrar beneficiarios
-                    </button>
-                  </div>
-                </form>
+                    </div>
+                  </form>
+                </div>
               </div>
-            </div>
-          </Container>
-          <br />
-          {/* <Button color="success" onClick={() => this.mostrarModalInsertar()}>
+            </Container>
+            <br />
+            {/* <Button color="success" onClick={() => this.mostrarModalInsertar()}>
             Insertar nuevo personaje
           </Button> */}
-          <br />
-          <br />
-          <Table>
-            <thead>
-              <tr>
-                <th>Identification</th>
-                <th>Primer Nombre</th>
-                <th>Segundo Nombre</th>
-                <th>Primer Apellido</th>
-                <th>Segundo Apellido</th>
-                <th>Fecha de nacimiento</th>
-                <th>Genero</th>
-                <th>Correo electrónico</th>
-                <th>Teléfono</th>
-                <th>Relationship</th>
-                <th>Direction</th>
-                <th>City</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.data.map((elemento) => (
+            <br />
+            <br />
+            <Table>
+              <thead>
                 <tr>
-                  <td>{elemento.identification}</td>
-                  <td>{elemento.firstName}</td>
-                  <td>{elemento.secondName}</td>
-                  <td>{elemento.lastName}</td>
-                  <td>{elemento.secondLastName}</td>
-                  <td>{elemento.birthday}</td>
-                  <td>{elemento.gender}</td>
-                  <td>{elemento.email}</td>
-                  <td>{elemento.phoneNumber}</td>
-                  <td>{elemento.relationShip}</td>
-                  <td>{elemento.direction}</td>
-                  <td>{elemento.city}</td>
-                  <td>
-                    <button
-                      class="boton button button2"
-                      onClick={() => this.mostrarModalEditar(elemento)}
-                    >
-                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                    {"  "}
-                    <button
-                      class="boton button button3"
-                      onClick={() => this.eliminar(elemento)}
-                    >
-                      <i class="fa fa-trash" />
-                    </button>
-                  </td>
+                  <th>Identification</th>
+                  <th>Primer Nombre</th>
+                  <th>Segundo Nombre</th>
+                  <th>Primer Apellido</th>
+                  <th>Segundo Apellido</th>
+                  <th>Fecha de nacimiento</th>
+                  <th>Genero</th>
+                  <th>Correo electrónico</th>
+                  <th>Teléfono</th>
+                  <th>Relationship</th>
+                  <th>Direction</th>
+                  <th>City</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <br />
-          <br />
-        </Container>
+              </thead>
+              <tbody>
+                {this.state.data.map((elemento) => (
+                  <tr>
+                    <td>{elemento.identification}</td>
+                    <td>{elemento.firstName}</td>
+                    <td>{elemento.secondName}</td>
+                    <td>{elemento.lastName}</td>
+                    <td>{elemento.secondLastName}</td>
+                    <td>{elemento.birthday}</td>
+                    <td>{elemento.gender}</td>
+                    <td>{elemento.email}</td>
+                    <td>{elemento.phoneNumber}</td>
+                    <td>{elemento.relationShip}</td>
+                    <td>{elemento.direction}</td>
+                    <td>{elemento.city}</td>
+                    <td>
+                      <button
+                        class="boton button button2"
+                        onClick={() => this.mostrarModalEditar(elemento)}
+                      >
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                      </button>
+                      {"  "}
+                      <button
+                        class="boton button button3"
+                        onClick={() => this.eliminar(elemento)}
+                      >
+                        <i class="fa fa-trash" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <br />
+            <br />
+          </Container>
+        ) : (
+          <Container>
+            <p>is active police </p>
+          </Container>
+        )}
 
         {/* Modal para INSERTAR LA INFORMACIÓN */}
         <Modal isOpen={this.state.modalInsertar}>

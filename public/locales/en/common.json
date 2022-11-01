@@ -1,0 +1,23 @@
+{
+  "identification": "Cardholder's ID",
+  "firstName": "First Name",
+  "secondName": "Second Name",
+  "lastName": "Paternal Last Name",
+  "secondLastName": "Mother's Last Name",
+  "address": "Address",
+  "birthdate": "Date of birth",
+  "gender": "Gender",
+  "phoneNumber": "Phone number",
+  "city": "City",
+  "kinship": "Kinship",
+  "email": "Email",
+  "healthInsurance": "Beneficiary's Health Insurance'",
+  "male": "Male",
+  "female": "Female",
+  "info": " In this section you can register up to three (3) beneficiaries for your health insurance provided by MoneyBlinks. Please remember to enter all the requested information and validate that it is correct. The term of the insurance will depend on the date you register.",
+  "maximumRegisters": "It is not possible to add another registration",
+  "registred":"This record has already been added to the list",
+  "JWT_EXPIRED": "The time to fill out this form has ended",
+  "JWT_INVALID": "Something went wrong, with the credentials",
+  "ACTIVE_POLICY":"Already has an active policy in place."
+}
