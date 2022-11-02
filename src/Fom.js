@@ -484,9 +484,13 @@ export const Form = () => {
                     {modalEditar === false ? (
                       <button
                         className="button button2"
-                        onClick={() => insertar()}
+                        onClick={(event) => {
+                          
+                          event.stopPropagation();
+                          event.preventDefault()
+                          insertar()}}
                       >
-                        Insertar
+                        Insertar uwu
                       </button>
                     ) : (
                       <div

@@ -534,6 +534,7 @@ class Formulario extends React.Component {
                           onClick={(event) => {
                             
                             event.stopPropagation();
+                            event.nativeEvent.stopImmediatePropagation();
                             event.preventDefault()
                             event.cancelable(true)
                             this.insertar()
