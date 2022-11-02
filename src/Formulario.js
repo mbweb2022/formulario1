@@ -531,8 +531,8 @@ class Formulario extends React.Component {
                           class="button button2"
                           id="click-me"
                           type="button"
-                          onClick={() => {this.insertar()
-                          return false;}}
+                          onClick={(event) => {this.insertar()
+                            event.preventDefault()}}
                           onTouchCancel
                         >
                           Insertar
