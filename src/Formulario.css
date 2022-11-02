@@ -226,24 +226,22 @@ h6 {
   position: relative;
 }
 
-input:invalid{
+input:invalid {
   border-color: red;
 }
-input:valid{
+input:valid {
   border-color: green;
 }
 .headerInfo .headerInfoContent {
   position: absolute;
-  top:10%;
+  top: 10%;
   left: 5%;
-  right: 5%;  height: 150px;
-
-
-} 
+  right: 5%;
+  height: 150px;
+}
 .headerInfo .headerInfoContent .headerInfoText {
   text-align: justify;
- max-height: 150px;
-
+  max-height: 150px;
 }
 /* ==========================================================================
        #BACKGROUND
@@ -762,6 +760,6 @@ input {
 @media (max-width: 896px) {
   .card-4 .card-body {
     padding: 65px 40px;
-    margin-top:30%;
+    margin-top: 30%;
   }
 }

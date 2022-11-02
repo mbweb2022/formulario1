@@ -2,8 +2,12 @@ import React, { useEffect } from "react";
 import gsap from "gsap";
 
 import "./style.css";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
-const PageNotFound = ( {message}) => {
+const PageNotFound = ({ message }) => {
+  const [t, i18n] = useTranslation("global");
+
   useEffect(() => {
     gsap.set("svg", { visibility: "visible" });
 
@@ -77,7 +81,7 @@ const PageNotFound = ( {message}) => {
   return (
     <>
       <main>
-        <div className="container">
+        <div className="container principal">
           <div className="row">
             <div className="col-md-6 align-self-center">
               <svg
@@ -770,10 +774,8 @@ const PageNotFound = ( {message}) => {
               </svg>
             </div>
             <div className="col-md-6 align-self-center">
-              <h1 className="text404">UH OH! You're lost.</h1>
-              <h2>
-               {message}
-              </h2>
+              <h1 className="text404">{t("something_wrong")}</h1>
+              <h2>{message}</h2>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PageNotFound from "./components/PageNotFound";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Form } from "./Fom";
+import { Form } from "./Form";
 
 function App() {
   return (

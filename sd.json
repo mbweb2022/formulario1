@@ -1,0 +1,56 @@
+{
+    "data": {
+        "code": "ABCD",
+        "insured": {
+            "identification": "0850099292"
+        },
+        "beneficiaries": [
+            {
+                "firstName": "AAAAA",
+                "secondName": "AAAAA",
+                "lastName": "AAAAA",
+                "secondLastName": "AAAAA",
+                "identification": "AAAAA",
+                "passport": "null",
+                "nationality": "AAAAA",
+                "email": "AAAAA",
+                "birthDate": "AAAAA",
+                "code": "AAAAA",
+                "codeDate": "AAAAA",
+                "address": "AAAAA",
+                "gender": "AAAAA",
+                "city": "AAAAA"
+            },
+            {
+                "firstName": "AAAAA",
+                "secondName": "AAAAA",
+                "lastName": "AAAAA",
+                "secondLastName": "AAAAA",
+                "identification": "AAAAA",
+                "passport": "null",
+                "nationality": "AAAAA",
+                "email": "AAAAA",
+                "birthDate": "AAAAA",
+                "code": "AAAAA",
+                "codeDate": "AAAAA",
+                "address": "AAAAA",
+                "gender": "AAAAA",
+                "city": "AAAAA"
+            },
+            {
+                "identification": "1723563233",
+                "firstName": "Jeremy",
+                "secondName": "Ismael",
+                "lastName": "León",
+                "secondLastName": "Garzón",
+                "birthday": "2001-03-21",
+                "email": "jeremisma2001@hotmail.com",
+                "phoneNumber": "0999999999",
+                "relationShip": "Familiar",
+                "direction": "La carolina",
+                "gender": "F",
+                "city": "Quito"
+            }
+        ]
+    }
+}

@@ -17,6 +17,9 @@ body {
   color: var(--blue);
   font-size: 1em;
 }
+.princdipal{
+  margin-top:auto
+}
 
 button {
   font-family: "Nunito Sans";
@@ -179,6 +182,10 @@ nav[data-state=open] ul li:nth-child(4) {
   width: 100%;
 }
 
+.principal{
+  margin-top: 10%;
+  margin-bottom: 70px;
+}
 @media screen and (max-width: 768px) {
   body {
     display: block;
@@ -188,4 +195,20 @@ nav[data-state=open] ul li:nth-child(4) {
     margin-top: 70px;
     margin-bottom: 70px;
   }
+ 
+}
+@media screen and (max-width: 830px) {
+  body {
+    display: block;
+  }
+
+  .container {
+    margin-top: 70px;
+    margin-bottom: 70px;
+  }
+  .principal{
+    margin-top: 70px;
+    margin-bottom: 70px;
+  }
+ 
 }
