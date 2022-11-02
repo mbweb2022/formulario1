@@ -529,7 +529,11 @@ class Formulario extends React.Component {
                       {this.state.modalEditar === false ? (
                         <button
                           class="button button2"
-                          onClick={() => this.insertar()}
+                          id="click-me"
+                          type="button"
+                          onClick={() => {this.insertar()
+                          return false;}}
+                          onTouchCancel
                         >
                           Insertar
                         </button>
