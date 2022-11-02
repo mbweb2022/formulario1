@@ -248,9 +248,7 @@ export const Form = () => {
 
   let callInformation = async (mbt) => {
     //console.log("ENTRA A RESPONSE con mbt", mbt);
-    await get(userId, setMbUser, isActivePolice, setMessageError);
-    console.log(mbUser);
-    setFullName(mbUser.mbUser.fullName.S);
+    await get(mbt, setMbUser, setFullName, setMessageError);
   };
   return (
     <>

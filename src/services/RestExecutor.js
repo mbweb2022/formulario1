@@ -4,7 +4,7 @@ const type = "medical";
 export const get = async (
   data,
   successFunction,
-  errorFunction,
+  setInfo,
   setMessageError
 ) => {
   const options = {
@@ -26,6 +26,7 @@ export const get = async (
       if (response.status === 200) {
         if (result) {
           console.log("RETRONA del get" + JSON.stringify(bodyResponse.data));
+          setInfo(bodyResponse.data.mbUser.fullName.S)
 
           successFunction(bodyResponse.data);
         }
@@ -55,7 +56,7 @@ export const post = async (
   auth,
   data,
   successFunction,
-  errorFunction,
+  setInfo,
   setMessageError
 ) => {
   const options = {
@@ -78,7 +79,6 @@ export const post = async (
     if (bodyResponse) {
       if (response.status === 200) {
         if (result) {
-
           successFunction(true);
         }
       } else {

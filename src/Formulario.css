@@ -760,6 +760,11 @@ input {
 @media (max-width: 896px) {
   .card-4 .card-body {
     padding: 65px 40px;
+  }
+}
+@media (max-width: 715px) {
+  .card-4 .card-body {
+    padding: 65px 40px;
     margin-top: 30%;
   }
 }
