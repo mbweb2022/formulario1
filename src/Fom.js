@@ -485,10 +485,11 @@ export const Form = () => {
                       <button
                         className="button button2"
                         onClick={(event) => {
-                          
+                          insertar()
                           event.stopPropagation();
                           event.preventDefault()
-                          insertar()}}
+                          console.log("NO HACE LA DIFERENCIA")
+                          }}
                       >
                         Insertar uwu
                       </button>
