@@ -488,10 +488,9 @@ export const Form = () => {
                           insertar()
                           event.stopPropagation();
                           event.preventDefault()
-                          console.log("NO HACE LA DIFERENCIA")
                           }}
                       >
-                        Insertar uwu
+                        Insertar
                       </button>
                     ) : (
                       <div
