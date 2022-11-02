@@ -534,11 +534,13 @@ class Formulario extends React.Component {
                           onClick={(event) => {
                             
                             event.stopPropagation();
+                            event.preventDefault()
+                            event.cancelable(true)
                             this.insertar()
                             }}
                           onTouchCancel
                         >
-                          Insertar
+                          Insertar uwu
                         </button>
                       ) : (
                         <div
