@@ -25,7 +25,7 @@ export const get = async (
     if (bodyResponse) {
       if (response.status === 200) {
         if (result) {
-          console.log("RETRONA del get" + JSON.stringify(bodyResponse.data));
+          //console.log("RETRONA del get" + JSON.stringify(bodyResponse.data));
           setInfo(bodyResponse.data.mbUser.fullName.S)
 
           successFunction(bodyResponse.data);
@@ -36,19 +36,19 @@ export const get = async (
           bodyResponse.messages[0].message != null &&
           bodyResponse.messages[0].message.length > 0
         ) {
-          console.log(bodyResponse);
-          console.log(bodyResponse.messages[0].message);
+          //console.log(bodyResponse);
+          //console.log(bodyResponse.messages[0].message);
           setMessageError(bodyResponse.messages[0].message);
           //   if (bodyResponse.messages[0].message === "ACTIVE_POLICY") {
           //     errorFunction(true);
           //   }
         } else {
-          console.log("Código de error 406 ");
+          //console.log("Código de error 406 ");
         }
       }
     }
   } catch (e) {
-    console.log("Error en petición get", e);
+    //console.log("Error en petición get", e);
   }
 };
 
@@ -87,15 +87,15 @@ export const post = async (
           bodyResponse.messages[0].message != null &&
           bodyResponse.messages[0].message.length > 0
         ) {
-          console.log(bodyResponse);
-          console.log(bodyResponse.messages[0].message);
+          //console.log(bodyResponse);
+          //console.log(bodyResponse.messages[0].message);
           setMessageError(bodyResponse.messages[0].message);
         } else {
-          console.log("Código de error 406 ");
+          //console.log("Código de error 406 ");
         }
       }
     }
   } catch (e) {
-    console.log("Error en petición get", e);
+    //console.log("Error en petición get", e);
   }
 };
