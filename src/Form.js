@@ -125,6 +125,8 @@ export const Form = () => {
   };
 
   let insertar = () => {
+    noDuplicated.current = true;
+    isValid.current = true;
     //console.log("insertando");
     var valorNuevo = {
       ...form,
